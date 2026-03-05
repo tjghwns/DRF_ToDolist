@@ -35,7 +35,7 @@ class TodoAPITests(TestCase):
     # -----------------------------------------------------
     def test_list(self):
         # API 요청
-        res = self.client.get("/todo/api/list/")
+        res = self.client.get("/todo/viewsets/view/")
 
         # 상태코드가 200(성공)인지 확인
         self.assertEqual(res.status_code, 200)
@@ -55,7 +55,7 @@ class TodoAPITests(TestCase):
         }
 
         # 새 Todo 생성 요청
-        res = self.client.post("/todo/api/create/", payload, format="json")
+        res = self.client.post("/todo/viewsets/view/", payload, format="json")
 
         # 상태코드가 201(생성 성공)인지 확인
         self.assertEqual(res.status_code, 201)
@@ -68,7 +68,7 @@ class TodoAPITests(TestCase):
     # -----------------------------------------------------
     def test_retrieve(self):
         # 생성된 Todo의 id로 조회
-        res = self.client.get(f"/todo/api/retrieve/{self.todo.id}/")
+        res = self.client.get(f"/todo/viewsets/view/{self.todo.id}/")
 
         # 상태코드 200 확인
         self.assertEqual(res.status_code, 200)
@@ -84,7 +84,7 @@ class TodoAPITests(TestCase):
 
         # 해당 Todo의 name 수정 요청
         res = self.client.patch(
-            f"/todo/api/update/{self.todo.id}/", payload, format="json"
+            f"/todo/viewsets/view/{self.todo.id}/", payload, format="json"
         )
 
         # 상태코드 200 확인
@@ -99,7 +99,7 @@ class TodoAPITests(TestCase):
     # -----------------------------------------------------
     def test_delete(self):
         # 삭제 요청
-        res = self.client.delete(f"/todo/api/delete/{self.todo.id}/")
+        res = self.client.delete(f"/todo/viewsets/view/{self.todo.id}/")
 
         # 상태코드 204(삭제 성공) 확인
         self.assertEqual(res.status_code, 204)
@@ -112,7 +112,7 @@ class TodoAPITests(TestCase):
     # -----------------------------------------------------
     def test_not_found_returns_404(self):
         # 존재하지 않는 id로 조회
-        res = self.client.get("/todo/api/retrieve/999999/")
+        res = self.client.get("/todo/viewsets/view/999999/")
 
         # 404(Not Found) 반환 확인
         self.assertEqual(res.status_code, 404)

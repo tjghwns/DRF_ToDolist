@@ -4,6 +4,9 @@ from rest_framework import status
 from ..models import Todo  # 경로변경
 from ..serializers import TodoSerializer  # 경로변경
 
+# ViewSets 사용을 위한 DRF 모듈 import
+from rest_framework import viewsets
+
 
 # 전체보기
 class TodoListAPI(APIView):
@@ -166,3 +169,15 @@ class TodoDeleteAPI(APIView):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
         # 삭제 성공 시 응답 반환 (204 = 성공했지만 반환할 데이터 없음)
+
+
+# Todo CRUD를 하나의 클래스에서 처리하는 ViewSet
+class TodoViewSet(viewsets.ModelViewSet):
+
+    queryset = Todo.objects.all().order_by("-created_at")
+    # Todo 모델의 모든 데이터를 조회
+    # created_at 기준으로 최신 데이터가 먼저 나오도록 정렬
+
+    serializer_class = TodoSerializer
+    # Todo 데이터를 JSON으로 변환하거나
+    # JSON 데이터를 검증/저장할 때 사용할 Serializer 지정
