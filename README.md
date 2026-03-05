@@ -35,7 +35,7 @@ AI 모델 연동(Hugging Face), Redis/Celery 비동기 처리까지
   ![스크린샷](images/list.png)
   ![스크린샷](images/update.png)
 - Django Template 렌더링
-
+  ![스크린샷](images/Todo_urls.png)
 ### 3️⃣ DRF ViewSets로 API 전환
 - Serializer 설계
 - API 응답 구조 설계
