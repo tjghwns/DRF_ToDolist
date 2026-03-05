@@ -29,11 +29,11 @@ AI 모델 연동(Hugging Face), Redis/Celery 비동기 처리까지
   ![스크린샷](images/django_todolist_install.png)
 ### 2️⃣ Generic View 기반 CRUD
 - CBV 기반 구조 설계
-  ![스크린샷](images/create 2026-03-05 155033.png)
-  ![스크린샷](images/delete 2026-03-05 155319.png)
-  ![스크린샷](images/detail 2026-03-05 154947.png)
-  ![스크린샷](images/list 2026-03-05 154902.png)
-  ![스크린샷](images/update 2026-03-05 155059.png)
+  ![스크린샷](images/create.png)
+  ![스크린샷](images/delete.png)
+  ![스크린샷](images/detail.png)
+  ![스크린샷](images/list.png)
+  ![스크린샷](images/update.png)
 - Django Template 렌더링
 
 ### 3️⃣ DRF ViewSets로 API 전환
