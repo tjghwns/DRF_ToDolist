@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 
 <div class="todoDetail">
@@ -6,6 +7,13 @@
   <p><strong>설명:</strong> {{ todo.description }}</p>
   <p><strong>완료 여부:</strong> {{ todo.complete }}</p>
   <p><strong>작성일:</strong> {{ todo.created_at }}</p>
+   <!-- [추가됨] 이미지 출력 -->
+  {% if todo.image %}
+    <p><strong>이미지:</strong></p>
+    <img src="{{ todo.image.url }}" alt="todo image" style="max-width:300px; height:auto;">
+  {% else %}
+    <p><strong>이미지:</strong> -</p>
+  {% endif %}
 </div>
 
 <div class="btnList">
@@ -14,53 +22,51 @@
   <button class="todoHome">홈으로</button>
 </div>
 
-
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 <script>
-// 페이지가 모두 로드된 후 실행
 document.addEventListener("DOMContentLoaded", () => {
 
   const todoId = "{{ todo.id }}";
-  // Django 템플릿에서 전달된 todo의 id(pk)
 
-  // axios 인스턴스 생성
+  // ✅ CSRF 토큰 함수
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
+
   const api = axios.create({
     baseURL: "/",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "X-CSRFToken": getCookie("csrftoken")  // ✅ CSRF 추가
     }
   });
 
-  // 삭제 버튼
-  const deleteBtn = document.querySelector(".todoDelete");
+  // 수정 버튼 ✅
+  document.querySelector(".todoUpdate").addEventListener("click", () => {
+    window.location.href = `/todo/update/${todoId}/`;
+  });
 
-  deleteBtn.addEventListener("click", async () => {
-    // 삭제 버튼 클릭 시 실행
+  // 삭제 버튼 ✅
+  document.querySelector(".todoDelete").addEventListener("click", async () => {
+    const ok = confirm("정말 삭제하시겠습니까?");
+    if (!ok) return;
 
     try {
-
-      const res = await api.delete(`/todo/viewsets/view/${todoId}/`);
-      // axios를 사용하여 DELETE 요청 전송
-      // 기존 fetch DELETE 요청과 동일한 기능
-
-      console.log(res.data);
-      // 서버 응답 데이터 확인 (DELETE는 보통 데이터 없음)
-
-      // 삭제 성공 후 목록 페이지로 이동
+      await api.delete(`/todo/viewsets/view/${todoId}/`);
       window.location.href = "/todo/list/";
-
     } catch (err) {
       console.error(err.response?.data || err.message);
-      // 삭제 중 오류 발생 시 콘솔 출력
-
       alert("삭제 실패");
-      // 사용자에게 실패 메시지 표시
     }
+  });
 
+  // 홈 버튼 ✅
+  document.querySelector(".todoHome").addEventListener("click", () => {
+    window.location.href = "/todo/list/";
   });
 
 });
 </script>
-
 {% endblock %}

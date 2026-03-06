@@ -7,6 +7,7 @@ class TodoSerializer(ModelSerializer):
         model = Todo
 
         fields = [
+            "id",
             "name",
             "description",
             "complete",
@@ -14,5 +15,6 @@ class TodoSerializer(ModelSerializer):
             "completed_at",
             "created_at",
             "updated_at",
+            "image",
         ]
-        read_only_fields = ["created_at", "updated_at"]
+        read_only_fields = ["id", "created_at", "updated_at"]

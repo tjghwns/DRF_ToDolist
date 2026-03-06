@@ -7,7 +7,11 @@
       <label for="name">Name:</label>
       <input type="text" name="name" id="name">
     </div>
-
+    <!-- [추가됨] 이미지 업로드 필드 -->
+    <div>
+      <label for="image">Image:</label>
+      <input type="file" id="image">
+    </div>
     <div>
       <label for="description">Description:</label>
       <textarea name="description" id="description">
@@ -28,42 +32,50 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<!-- axios 라이브러리 CDN 로드 (HTTP 요청을 쉽게 보내기 위한 라이브러리) -->
-
 <script>
-// id가 "todoCreate"인 버튼 클릭 이벤트 등록
+
+// ✅ 클릭 이벤트 밖으로 꺼냄
+const api = axios.create({ baseURL: "/" });
+
+api.interceptors.request.use(config => {
+  const csrfToken = document.cookie
+    .split("; ")
+    .find(row => row.startsWith("csrftoken"))
+    ?.split("=")[1];
+  if (csrfToken) config.headers["X-CSRFToken"] = csrfToken;
+  return config;
+});
+
 document.getElementById("todoCreate").addEventListener("click", async () => {
-
   try {
+    const formData = new FormData();
 
-    // Todo 생성 API 호출 (POST 요청)
-    // 기존 API 주소(todo/api/create/) 대신 ViewSet API 주소로 변경
-    const res = await api.post("todo/viewsets/view/", {
+    // 입력된 Todo 데이터를 FormData에 추가
+    formData.append("name", document.getElementById("name").value);
+    formData.append("description", document.getElementById("description").value);
+    formData.append("complete", document.getElementById("complete").checked);
+    formData.append("exp", document.getElementById("exp").value || 0);
 
-      name: document.getElementById("name").value,
-      // id="name" 입력칸의 값을 가져와 Todo의 name 필드로 전달
+    // 이미지 파일 input 요소 가져오기
+    const fileInput = document.getElementById("image");
 
-      description: document.getElementById("description").value,
-      // id="description" 입력칸의 값을 가져와 description 필드로 전달
+    // 파일이 선택되어 있으면 FormData에 이미지 추가
+    if (fileInput.files.length > 0) {
+      formData.append("image", fileInput.files[0]);
+    }
 
-      complete: document.getElementById("complete").checked,
-      // 체크박스 상태(true / false)를 complete 값으로 전달
-
-      exp: Number(document.getElementById("exp").value || 0)
-      // exp 입력값을 숫자로 변환
-      // 값이 비어 있으면 0으로 처리
-    });
+    // Todo 생성 API 호출
+    // JSON 대신 FormData 형태로 서버에 전송
+    const res = await api.post("/todo/viewsets/view/", formData);
 
     console.log(res.data);
-    // 서버에서 생성된 Todo 데이터 확인
+    window.location.href = "/todo/list/";  // ✅ 생성 후 목록으로 이동
 
   } catch (err) {
-
     console.error(err.response?.data || err.message);
-    // 요청 중 오류 발생 시 콘솔에 에러 출력
-
+    alert("생성 실패");
   }
-
 });
+
 </script>
 {% endblock %}
