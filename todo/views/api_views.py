@@ -8,6 +8,7 @@ from rest_framework.pagination import PageNumberPagination
 
 # ViewSets 사용을 위한 DRF 모듈 import
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 
 # 전체보기
@@ -173,18 +174,6 @@ class TodoDeleteAPI(APIView):
         # 삭제 성공 시 응답 반환 (204 = 성공했지만 반환할 데이터 없음)
 
 
-# Todo CRUD를 하나의 클래스에서 처리하는 ViewSet
-class TodoViewSet(viewsets.ModelViewSet):
-
-    queryset = Todo.objects.all().order_by("-created_at")
-    # Todo 모델의 모든 데이터를 조회
-    # created_at 기준으로 최신 데이터가 먼저 나오도록 정렬
-
-    serializer_class = TodoSerializer
-    # Todo 데이터를 JSON으로 변환하거나
-    # JSON 데이터를 검증/저장할 때 사용할 Serializer 지정
-
-
 # ---------------------------------------------------------
 # Todo 목록 페이지네이션 설정
 # ---------------------------------------------------------
@@ -200,3 +189,31 @@ class TodoListPagination(PageNumberPagination):
     max_page_size = 50
     # 사용자가 설정할 수 있는 최대 페이지 크기 제한
     # 예: page_size=100 요청 시 최대 50까지만 허용
+
+
+# ---------------------------------------
+# Todo ViewSet
+# ---------------------------------------
+class TodoViewSet(viewsets.ModelViewSet):
+
+    # Todo 데이터를 변환할 Serializer 지정
+    serializer_class = TodoSerializer
+
+    # 로그인한 사용자만 API 접근 가능
+    permission_classes = [IsAuthenticated]
+
+    # 페이지네이션 설정 적용
+    pagination_class = TodoListPagination
+
+    # 조회할 queryset 설정
+    def get_queryset(self):
+
+        # 현재 로그인한 사용자(request.user)의 Todo만 조회
+        # 최신 Todo가 먼저 나오도록 created_at 기준 내림차순 정렬
+        return Todo.objects.filter(user=self.request.user).order_by("-created_at")
+
+    # Todo 생성 시 실행되는 메서드
+    def perform_create(self, serializer):
+
+        # Todo 생성할 때 현재 로그인한 사용자를 자동으로 user 필드에 저장
+        serializer.save(user=self.request.user)

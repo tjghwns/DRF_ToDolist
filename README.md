@@ -47,16 +47,18 @@ AI 모델 연동(Hugging Face), Redis/Celery 비동기 처리까지
 ### 4️⃣ 환경 변수 설정 (.env)
   ![스크린샷](images/env.png)
 ### 5️⃣ Pagination 추가
-  ![스크린샷](pagination.png)
+  ![스크린샷](images/pagination.png)
 ### 6️⃣ 이미지 업로드 기능 추가
   ![스크린샷](images/cat_upload.png)
   ![스크린샷](images/image_upload.png)
 ### 7️⃣ 회원가입 / 로그인 기능 구현
-
+  ![스크린샷](images/login_success.png)
+  ![스크린샷](images/login_success_list.png)
 ### 8️⃣ 템플릿 구조 정리
-
+  ![스크린샷](images/template_login.png)
+  ![스크린샷](images/template_login_success.png)
 ### 9️⃣ JWT 인증 도입
-
+  ![스크린샷](images/jwt.png)
 ### 🔟 인터랙티브 기능 추가 (Ajax / Axios)
 
 ### 1️⃣1️⃣ CSS 및 UI 정리

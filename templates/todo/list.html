@@ -1,138 +1,149 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
+<div class="container">
+  <h2>Create a New Todo</h2>
+    <div>
+      <label for="name">Name:</label>
+      <input type="text" name="name" id="name">
+    </div>
 
-<!-- Todo 목록이 출력될 영역 -->
-<div class="todocontainer"></div>
+    <div>
+      <label for="description">Description:</label>
+      <textarea name="description" id="description"></textarea>
+    </div>
 
-<!-- 페이지네이션 영역 -->
-<div class="pagination">
-    <button id="prevBtn">이전</button>
-    <span id="pageInfo"></span>
-    <button id="nextBtn">다음</button>
+    <div>
+      <label for="complete">Complete:</label>
+      <input type="checkbox" name="complete" id="complete">
+    </div>
+
+    <div>
+      <label for="exp">Experience Points:</label>
+      <input type="number" name="exp" id="exp" min="0">
+    </div>
+
+    <div>
+      <label for="image">Image:</label>
+      <input type="file" id="image">
+    </div>
+
+    <button type="submit" id="todoCreate">Create</button>
 </div>
 
-<!-- Todo 생성 페이지 이동 버튼 -->
-<button id="createBtn">Todo 등록하기</button>
-
-<!-- Axios 라이브러리 CDN 로드 (HTTP 요청을 쉽게 보내기 위한 라이브러리) -->
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 <script>
-
-/* HTML이 모두 로드된 후 JavaScript 실행 */
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* Axios 인스턴스 생성
-       baseURL을 "/"로 설정하면 같은 Django 서버로 요청을 보냄 */
-    const api = axios.create({
-        baseURL: "/",
-    });
+  // (유지) 로그인 페이지 / 생성 API URL
+  const LOGIN_PAGE_URL = "/login/";
+  const CREATE_API_URL = "/todo/viewsets/view/";
 
-    /* 현재 페이지 번호 저장 */
-    let currentPage = 1;
+  // ✅ [삭제됨] 기존: 세션 쿠키 기반 axios 인스턴스 생성
+  /*
+  const api = axios.create({
+    baseURL: "/",
+    withCredentials: true,
+  });
+  */
 
+  // ✅ [삭제됨] 기존: CSRF 자동 주입 (세션 기반에서 필요)
+  /*
+  api.interceptors.request.use((config) => {
+    const csrfToken = document.cookie
+      .split("; ")
+      .find(row => row.startsWith("csrftoken="))
+      ?.split("=")[1];
 
-    /* 특정 페이지의 Todo 목록을 서버에서 가져오는 함수 */
-    function loadPage(page) {
-
-        /* axios GET 요청 → Django ViewSet API 호출 */
-        api.get(`/todo/viewsets/view/?page=${page}`)
-            .then(res => {
-
-                /* axios는 응답 데이터가 res.data 안에 들어있음 */
-                const data = res.data;
-
-                /* Todo 목록 화면에 출력 */
-                renderTodos(data.data);
-
-                /* 페이지네이션 UI 업데이트 */
-                updatePaginationUI(data);
-
-                /* 현재 페이지 상태 업데이트 */
-                currentPage = data.current_page;
-            })
-            .catch(err => console.error("페이지 로드 실패", err));
+    config.headers = config.headers || {};
+    if (csrfToken) {
+      config.headers["X-CSRFToken"] = csrfToken;
     }
+    return config;
+  });
+  */
 
+  // ✅ [삭제됨] 기존: response interceptor로 401/403이면 로그인으로 이동
+  /*
+  api.interceptors.response.use(
+    (res) => res,
+    async (err) => {
+      const status = err.response?.status;
 
-    /* Todo 목록을 HTML에 렌더링하는 함수 */
-    function renderTodos(todos) {
-
-        /* Todo 출력 영역 선택 */
-        const container = document.querySelector(".todocontainer");
-
-        /* 기존 내용 초기화 */
-        container.innerHTML = "";
-
-        /* Todo 데이터를 반복하면서 화면에 출력 */
-        todos.forEach(todo => {
-
-            const div = document.createElement("div");
-            div.className = "todo-item";
-
-            /* dataset → HTML 요소에 데이터를 저장하는 속성 */
-            div.dataset.id = todo.id;
-
-            /* Todo 정보 표시 */
-            div.innerHTML = `
-                <p><strong>이름:</strong> ${todo.name}</p>
-                <p><strong>설명:</strong> ${todo.description}</p>
-                <p><strong>완료 여부:</strong> ${todo.complete}</p>
-                <p><strong>exp:</strong> ${todo.exp}</p>
-                <!-- [추가됨] 이미지 표시 -->
-                ${todo.image ? `<img src="${todo.image}" style="max-width:200px;">` : ""}
-                <hr>
-            `;
-
-            /* Todo 클릭 시 상세 페이지 이동 */
-            div.addEventListener("click", () => {
-                window.location.href = `/todo/detail/${todo.id}/`;
-            });
-
-            /* 화면에 Todo 추가 */
-            container.appendChild(div);
-        });
+      if (status === 401 || status === 403) {
+        console.log("세션 없음/권한 없음 → 로그인 이동");
+        window.location.href = LOGIN_PAGE_URL;
+        return Promise.reject(err);
+      }
+      return Promise.reject(err);
     }
+  );
+  */
 
+  // [수정됨] 이제 세션 기반 api가 아니라, 공통 axios 인스턴스(window.api) 사용
+  // 3단계: 공통 axios 인스턴스(window.api) 사용
+  if (!window.api) { // [추가됨] window.api 로드 여부 확인
+    console.error("window.api가 없습니다. base.html에서 static/js/api.js가 로드됐는지 확인하세요.");
+    alert("설정 오류: api.js가 로드되지 않았습니다.");
+    return;
+  }
 
-    /* 페이지네이션 UI 업데이트 */
-    function updatePaginationUI(data) {
+  // [추가됨] access 토큰이 없으면 바로 로그인으로(선택)
+  const access = localStorage.getItem("access_token");
+  if (!access) {
+    console.log("access_token 없음 → 로그인 이동");
+    window.location.href = LOGIN_PAGE_URL;
+    return;
+  }
 
-        /* 현재 페이지 / 전체 페이지 표시 */
-        document.getElementById("pageInfo").innerText =
-            `${data.current_page} / ${data.page_count}`;
-
-        /* 이전 버튼 활성화 여부 */
-        document.getElementById("prevBtn").disabled = !data.previous;
-
-        /* 다음 버튼 활성화 여부 */
-        document.getElementById("nextBtn").disabled = !data.next;
+  // [추가됨] 401/403 처리 로직을 함수로 분리 (기존 interceptor 대체)
+  function handleAuthError(err) {
+    const status = err.response?.status;
+    if (status === 401 || status === 403) {
+      console.log("인증 실패(401/403) → 토큰 삭제 후 로그인 이동");
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      window.location.href = LOGIN_PAGE_URL;
     }
+    return Promise.reject(err);
+  }
 
+  // (유지) Create 버튼 클릭 → FormData 전송
+  document.getElementById("todoCreate").addEventListener("click", async (e) => {
+    e.preventDefault();
 
-    /* 이전 페이지 버튼 클릭 이벤트 */
-    document.getElementById("prevBtn").addEventListener("click", () => {
-        if (currentPage > 1) loadPage(currentPage - 1);
-    });
+    try {
+      const formData = new FormData();
 
+      formData.append("name", document.getElementById("name").value);
+      formData.append("description", document.getElementById("description").value);
+      formData.append("complete", document.getElementById("complete").checked ? "true" : "false");
+      formData.append("exp", document.getElementById("exp").value || "0");
 
-    /* 다음 페이지 버튼 클릭 이벤트 */
-    document.getElementById("nextBtn").addEventListener("click", () => {
-        loadPage(currentPage + 1);
-    });
+      const fileInput = document.getElementById("image");
+      if (fileInput.files.length > 0) {
+        formData.append("image", fileInput.files[0]);
+      }
 
+      // [수정됨] 기존: api.post(...) → 세션 기반
+      // const res = await api.post(CREATE_API_URL, formData); // ❌ [삭제됨]
 
-    /* Todo 생성 페이지 이동 */
-    document.getElementById("createBtn").addEventListener("click", () => {
-        window.location.href = "/todo/create/";
-    });
+      // [수정됨] 변경: window.api.post(...) → JWT 기반
+      // JWT: Authorization은 api.js가 자동으로 붙임 (설명 주석 추가됨)
+      // FormData일 때 Content-Type은 axios가 자동 설정하도록 헤더 지정하지 않는 게 안전 (설명 주석 추가됨)
+      const res = await window.api.post(CREATE_API_URL, formData); // ✅ 변경
 
+      console.log("생성 성공:", res.data);
+      window.location.href = "/todo/list/";
 
-    /* 페이지 최초 로딩 시 1페이지 데이터 요청 */
-    loadPage(1);
+    } catch (err) {
+      // ✅ [추가됨] 인증 문제면 로그인으로 보내기
+      handleAuthError(err).catch(() => {});
+
+      console.error("생성 실패:", err.response?.data || err.message);
+      alert("생성 실패: 콘솔/네트워크 확인");
+    }
+  });
 
 });
-
 </script>
 {% endblock %}
