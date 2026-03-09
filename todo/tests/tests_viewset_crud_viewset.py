@@ -1,6 +1,6 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
-
+from django.contrib.auth.models import User
 from todo.models import Todo
 
 
@@ -22,21 +22,23 @@ class TodoViewSetCRUDTests(TestCase):
     # 테스트 시작 전에 공통 데이터 준비
     # ---------------------------------------------------------
     def setUp(self):
-
         self.client = APIClient()
-        # DRF API 테스트용 클라이언트
-        # 실제 브라우저 대신 API 요청을 보내는 역할
-
         self.base_url = "/todo/viewsets/view/"
-        # ViewSet API 기본 URL
 
+        # 테스트용 유저 생성
+        self.user = User.objects.create_user(username="testuser", password="testpass")
+
+        # JWT 인증 강제 적용
+        self.client.force_authenticate(user=self.user)
+
+        # user 추가
         self.todo = Todo.objects.create(
             name="운동",
             description="스쿼트 50회",
             complete=False,
             exp=10,
+            user=self.user,  # ← 추가
         )
-        # 테스트용 기본 Todo 데이터 생성
 
     # ---------------------------------------------------------
     # 목록 조회 테스트

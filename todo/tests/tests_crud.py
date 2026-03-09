@@ -1,6 +1,6 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
-
+from django.contrib.auth.models import User
 from ..models import Todo
 
 
@@ -17,17 +17,21 @@ class TodoAPITests(TestCase):
     # 테스트 실행 전에 공통으로 준비되는 데이터
     # -----------------------------------------------------
     def setUp(self):
-        # DRF 전용 테스트 클라이언트 생성
-        # → 실제 브라우저 대신 API 요청을 보내는 역할
         self.client = APIClient()
 
-        # 테스트용 기본 Todo 1개 생성
-        # → retrieve / update / delete 테스트에서 사용
+        # 테스트용 유저 생성
+        self.user = User.objects.create_user(username="testuser", password="testpass")
+
+        # JWT 인증 강제 적용
+        self.client.force_authenticate(user=self.user)
+
+        # user 추가
         self.todo = Todo.objects.create(
             name="운동",
             description="스쿼트 50회",
             complete=False,
             exp=10,
+            user=self.user,  # ← 추가
         )
 
     # -----------------------------------------------------
