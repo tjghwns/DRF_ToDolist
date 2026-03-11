@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "todo",
     "rest_framework",
     "accounts",
+    "interaction",
 ]
 
 MIDDLEWARE = [
@@ -80,14 +81,23 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "mysite_db",
+        "USER": "mysite_user",
+        "PASSWORD": "mysite_password",
+        "HOST": "localhost",
+        "PORT": "5433",
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
@@ -153,8 +163,8 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     # access는 짧게(보안), refresh는 길게(편의)
-    "ACCESS_TOKEN_LIFETIME": timedelta(hours=300),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=365),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     # Authorization: Bearer <token>
     "AUTH_HEADER_TYPES": ("Bearer",),
     # (5~6단계에서 다룰 것들 - 지금은 False로 두고 시작 권장)

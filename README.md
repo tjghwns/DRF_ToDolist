@@ -60,13 +60,13 @@ AI 모델 연동(Hugging Face), Redis/Celery 비동기 처리까지
 ### 9️⃣ JWT 인증 도입
   ![스크린샷](images/jwt.png)
 ### 🔟 인터랙티브 기능 추가 (Ajax / Axios)
-
+  ![스크린샷](images/interactive_css.png)
 ### 1️⃣1️⃣ CSS 및 UI 정리
-
+  ![스크린샷](images/public_list.png)
 ### 1️⃣2️⃣ 다른 사용자 글 조회 기능
-
+  ![스크린샷](images/public_list.png)
 ### 1️⃣3️⃣ SQLite → PostgreSQL 전환
-
+  ![스크린샷](images/postgreSQL.png)
 ### 1️⃣4️⃣ 웹 크롤링 → CSV / JSONL 데이터 정제
 
 ### 1️⃣5️⃣ DBeaver → DRF 데이터 적재

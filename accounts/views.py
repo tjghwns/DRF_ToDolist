@@ -27,6 +27,7 @@ class SignupAPIView(APIView):
 
     # 로그인하지 않은 사용자도 접근 가능
     permission_classes = [AllowAny]
+    authentication_classes = []  # 인증 방식 비활성화 (JWT는 별도 처리)
 
     # POST 요청 처리
     def post(self, request):
@@ -59,3 +60,16 @@ class SessionLogoutAPIView(APIView):
 
         # 로그아웃 성공 응답
         return Response({"detail": "로그아웃(세션 정리)"}, status=status.HTTP_200_OK)
+
+
+class MeAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response(
+            {
+                "id": request.user.id,
+                "username": request.user.username,
+                "email": request.user.email,
+            }
+        )

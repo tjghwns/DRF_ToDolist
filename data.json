@@ -1,0 +1,812 @@
+[
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "admin",
+    "model": "logentry"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "group"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "permission"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "auth",
+    "model": "user"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "contenttypes",
+    "model": "contenttype"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "sessions",
+    "model": "session"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "todo",
+    "model": "todo"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "interaction",
+    "model": "todobookmark"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "interaction",
+    "model": "todocomment"
+  }
+},
+{
+  "model": "contenttypes.contenttype",
+  "fields": {
+    "app_label": "interaction",
+    "model": "todolike"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "k7elztge092exmx1096s4ltoy740hm3o",
+  "fields": {
+    "session_data": ".eJxVjEEOwiAQRe_C2hCYOgzj0n3PQKZApWpoUtqV8e7apAvd_vfef6kg21rC1vISpqQuqlOn322Q-Mh1B-ku9TbrONd1mQa9K_qgTfdzys_r4f4dFGnlWxMQujMjWytsUXhM0RpjHXUYeSRPEYQEwKMntIzInHI0GcFBBqPeH6M5Nj0:1w0E4m:DvAwMu8kfFOREeDKePyMXHrxJ7bFbhl7uiFp1eUR3qI",
+    "expire_date": "2026-03-25T07:33:52.270Z"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "add_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "change_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "delete_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view log entry",
+    "content_type": [
+      "admin",
+      "logentry"
+    ],
+    "codename": "view_logentry"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "add_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "change_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "delete_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view user",
+    "content_type": [
+      "auth",
+      "user"
+    ],
+    "codename": "view_user"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "add_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "change_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "delete_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view group",
+    "content_type": [
+      "auth",
+      "group"
+    ],
+    "codename": "view_group"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "add_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "change_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "delete_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view permission",
+    "content_type": [
+      "auth",
+      "permission"
+    ],
+    "codename": "view_permission"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "add_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "change_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "delete_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view content type",
+    "content_type": [
+      "contenttypes",
+      "contenttype"
+    ],
+    "codename": "view_contenttype"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "add_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "change_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "delete_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view session",
+    "content_type": [
+      "sessions",
+      "session"
+    ],
+    "codename": "view_session"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add todo",
+    "content_type": [
+      "todo",
+      "todo"
+    ],
+    "codename": "add_todo"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change todo",
+    "content_type": [
+      "todo",
+      "todo"
+    ],
+    "codename": "change_todo"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete todo",
+    "content_type": [
+      "todo",
+      "todo"
+    ],
+    "codename": "delete_todo"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view todo",
+    "content_type": [
+      "todo",
+      "todo"
+    ],
+    "codename": "view_todo"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add todo bookmark",
+    "content_type": [
+      "interaction",
+      "todobookmark"
+    ],
+    "codename": "add_todobookmark"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change todo bookmark",
+    "content_type": [
+      "interaction",
+      "todobookmark"
+    ],
+    "codename": "change_todobookmark"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete todo bookmark",
+    "content_type": [
+      "interaction",
+      "todobookmark"
+    ],
+    "codename": "delete_todobookmark"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view todo bookmark",
+    "content_type": [
+      "interaction",
+      "todobookmark"
+    ],
+    "codename": "view_todobookmark"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add todo comment",
+    "content_type": [
+      "interaction",
+      "todocomment"
+    ],
+    "codename": "add_todocomment"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change todo comment",
+    "content_type": [
+      "interaction",
+      "todocomment"
+    ],
+    "codename": "change_todocomment"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete todo comment",
+    "content_type": [
+      "interaction",
+      "todocomment"
+    ],
+    "codename": "delete_todocomment"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view todo comment",
+    "content_type": [
+      "interaction",
+      "todocomment"
+    ],
+    "codename": "view_todocomment"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can add todo like",
+    "content_type": [
+      "interaction",
+      "todolike"
+    ],
+    "codename": "add_todolike"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can change todo like",
+    "content_type": [
+      "interaction",
+      "todolike"
+    ],
+    "codename": "change_todolike"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can delete todo like",
+    "content_type": [
+      "interaction",
+      "todolike"
+    ],
+    "codename": "delete_todolike"
+  }
+},
+{
+  "model": "auth.permission",
+  "fields": {
+    "name": "Can view todo like",
+    "content_type": [
+      "interaction",
+      "todolike"
+    ],
+    "codename": "view_todolike"
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$d1SI59YVy3ihGAzFopq693$sKmeEBisUA2AOErVOKQh14MxuecPLfc3fG9gCx8q/Ng=",
+    "last_login": "2026-03-09T05:34:41.028Z",
+    "is_superuser": false,
+    "username": "shj4902",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-03-09T04:37:57.685Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$gD480TDiOeXjQ4O8EEHEk5$zzr26Tvu6J7rSmcGYgr3GL3J/CXflNKW5xygNOKaOqk=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "testuser",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-03-11T06:50:32.380Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$bNKjCE687NDNhSkdQTuOFA$sew3Lp1z1fC3/aObIvsRsfUDZcIE//u1xdHbc7QVx6A=",
+    "last_login": "2026-03-11T07:33:52.251Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-03-11T07:33:45.815Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "todo.todo",
+  "pk": 1,
+  "fields": {
+    "name": "Hello",
+    "description": "first",
+    "complete": true,
+    "exp": 2,
+    "completed_at": "2026-03-09T04:38:23.072Z",
+    "created_at": "2026-03-09T04:38:23.072Z",
+    "updated_at": "2026-03-09T04:38:23.072Z",
+    "image": "",
+    "user": [
+      "shj4902"
+    ],
+    "is_public": true
+  }
+},
+{
+  "model": "todo.todo",
+  "pk": 2,
+  "fields": {
+    "name": "Cat",
+    "description": "Nyaong",
+    "complete": false,
+    "exp": 3,
+    "completed_at": null,
+    "created_at": "2026-03-09T05:31:43.151Z",
+    "updated_at": "2026-03-09T05:31:43.151Z",
+    "image": "todo_images/cat_HxFcPeG.png",
+    "user": [
+      "shj4902"
+    ],
+    "is_public": true
+  }
+},
+{
+  "model": "todo.todo",
+  "pk": 3,
+  "fields": {
+    "name": "Dog",
+    "description": "chapchu",
+    "complete": false,
+    "exp": 4,
+    "completed_at": null,
+    "created_at": "2026-03-09T05:32:37.382Z",
+    "updated_at": "2026-03-09T05:32:52.319Z",
+    "image": "todo_images/thumb-dog_aIBmbbL.png",
+    "user": [
+      "shj4902"
+    ],
+    "is_public": true
+  }
+},
+{
+  "model": "todo.todo",
+  "pk": 4,
+  "fields": {
+    "name": "egg",
+    "description": "boiled egg",
+    "complete": true,
+    "exp": 1,
+    "completed_at": "2026-03-09T05:33:12.342Z",
+    "created_at": "2026-03-09T05:33:12.343Z",
+    "updated_at": "2026-03-09T05:33:12.343Z",
+    "image": "",
+    "user": [
+      "shj4902"
+    ],
+    "is_public": true
+  }
+},
+{
+  "model": "todo.todo",
+  "pk": 5,
+  "fields": {
+    "name": "Zealot",
+    "description": "Protoss",
+    "complete": false,
+    "exp": 3,
+    "completed_at": null,
+    "created_at": "2026-03-09T09:09:00.515Z",
+    "updated_at": "2026-03-09T09:09:00.516Z",
+    "image": "",
+    "user": [
+      "shj4902"
+    ],
+    "is_public": true
+  }
+},
+{
+  "model": "todo.todo",
+  "pk": 6,
+  "fields": {
+    "name": "Devil",
+    "description": "akma",
+    "complete": true,
+    "exp": 2,
+    "completed_at": "2026-03-11T06:19:13Z",
+    "created_at": "2026-03-11T06:19:13.279Z",
+    "updated_at": "2026-03-11T07:34:05.426Z",
+    "image": "",
+    "user": [
+      "shj4902"
+    ],
+    "is_public": true
+  }
+},
+{
+  "model": "todo.todo",
+  "pk": 7,
+  "fields": {
+    "name": "test2",
+    "description": "22",
+    "complete": false,
+    "exp": 3,
+    "completed_at": null,
+    "created_at": "2026-03-11T06:19:40.746Z",
+    "updated_at": "2026-03-11T07:34:12.471Z",
+    "image": "",
+    "user": [
+      "shj4902"
+    ],
+    "is_public": true
+  }
+},
+{
+  "model": "interaction.todolike",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "shj4902"
+    ],
+    "todo": 7,
+    "created_at": "2026-03-11T06:40:24.817Z"
+  }
+},
+{
+  "model": "interaction.todolike",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "testuser"
+    ],
+    "todo": 7,
+    "created_at": "2026-03-11T06:50:46.050Z"
+  }
+},
+{
+  "model": "interaction.todolike",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "testuser"
+    ],
+    "todo": 5,
+    "created_at": "2026-03-11T07:28:50.557Z"
+  }
+},
+{
+  "model": "interaction.todobookmark",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "shj4902"
+    ],
+    "todo": 7,
+    "created_at": "2026-03-11T06:40:26.556Z"
+  }
+},
+{
+  "model": "interaction.todobookmark",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "testuser"
+    ],
+    "todo": 5,
+    "created_at": "2026-03-11T07:28:51.135Z"
+  }
+},
+{
+  "model": "interaction.todocomment",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "shj4902"
+    ],
+    "todo": 7,
+    "content": "테스트랑꼐요",
+    "created_at": "2026-03-11T06:40:36.236Z"
+  }
+},
+{
+  "model": "interaction.todocomment",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "shj4902"
+    ],
+    "todo": 7,
+    "content": "진짜랑꼐요",
+    "created_at": "2026-03-11T06:40:47.553Z"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2026-03-11T07:34:05.428Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "todo",
+      "todo"
+    ],
+    "object_id": "6",
+    "object_repr": "Devil",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is public\"]}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2026-03-11T07:34:12.472Z",
+    "user": [
+      "admin"
+    ],
+    "content_type": [
+      "todo",
+      "todo"
+    ],
+    "object_id": "7",
+    "object_repr": "test2",
+    "action_flag": 2,
+    "change_message": "[{\"changed\": {\"fields\": [\"Is public\"]}}]"
+  }
+}
+]

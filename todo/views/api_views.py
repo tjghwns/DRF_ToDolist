@@ -1,219 +1,282 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
 from ..models import Todo  # 경로변경
 from ..serializers import TodoSerializer  # 경로변경
-
-from rest_framework.pagination import PageNumberPagination
+from django.db.models import Q
 
 # ViewSets 사용을 위한 DRF 모듈 import
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 
+from interaction.models import TodoLike, TodoBookmark, TodoComment
+
+# ---------------------------------------------------------
+# DRF action / permission import
+# ---------------------------------------------------------
+# action
+# → ViewSet 안에서 "추가 API"를 만들 때 사용하는 데코레이터
+# → 기본 CRUD 외에 커스텀 API를 만들 수 있음
+from rest_framework.decorators import action
+
+from ..pagination import CustomPageNumberPagination
+
+
 # 전체보기
 class TodoListAPI(APIView):
-    def get(self, request):
-        # GET 요청이 들어오면 실행되는 함수
-
-        todos = Todo.objects.all()
-        # Todo 모델의 모든 데이터 조회 (QuerySet)
-
-        serializer = TodoSerializer(todos, many=True)
-        # 조회한 Todo 객체들을 Serializer로 JSON 변환 준비
-        # many=True → 여러 개의 객체를 변환한다는 의미
-
-        return Response(serializer.data)
-        # serializer.data를 JSON 형태로 변환하여 API 응답으로 반환
+    pass
 
 
 # 생성하기
 class TodoCreateAPI(APIView):
 
-    def post(self, request):
-        # POST 요청이 들어오면 실행되는 함수 (데이터 생성 요청)
-
-        serializer = TodoSerializer(data=request.data)
-        # 요청(request)으로 들어온 JSON 데이터를 Serializer에 전달
-
-        serializer.is_valid(raise_exception=True)
-        # 데이터 유효성 검사 수행
-        # 잘못된 데이터가 있으면 자동으로 400 에러 발생
-
-        todo = serializer.save()
-        # 검증된 데이터를 Todo 모델에 저장 (DB에 새로운 데이터 생성)
-
-        return Response(TodoSerializer(todo).data, status=status.HTTP_201_CREATED)
-        # 생성된 Todo 객체를 다시 Serializer로 JSON 변환 후 응답
-        # HTTP 상태코드 201 (생성 성공)
-
-
-# Django에서 상세 페이지를 만들 때 사용하는 제네릭 뷰
+    pass
 
 
 # 상세보기 API
 class TodoRetrieveAPI(APIView):
 
-    def get(self, request, pk):
-        # GET 요청이 들어오면 실행되는 함수
-        # pk는 URL에서 전달된 Todo의 기본키(id)
-
-        try:
-            todo = Todo.objects.get(pk=pk)
-            # pk 값에 해당하는 Todo 데이터를 DB에서 조회
-
-        except Todo.DoesNotExist:
-            # 해당 pk의 Todo가 존재하지 않을 경우 실행
-
-            return Response(
-                {"error": "해당하는 todo가 없습니다."},
-                # 에러 메시지를 JSON 형태로 반환
-                status=status.HTTP_404_NOT_FOUND,
-                # HTTP 상태코드 404 (데이터 없음)
-            )
-
-        serializer = TodoSerializer(todo)
-        # 조회한 Todo 객체를 Serializer로 JSON 변환 준비
-
-        return Response(serializer.data)
-        # 변환된 데이터를 JSON 응답으로 반환
+    pass
 
 
 # 수정하기 API
 class TodoUpdateAPI(APIView):
 
-    def put(self, request, pk):
-        # PUT 요청 → 전체 수정 (모든 필드를 다시 보내야 함)
-
-        try:
-            todo = Todo.objects.get(pk=pk)
-            # pk에 해당하는 Todo 데이터 조회
-
-        except Todo.DoesNotExist:
-            # 해당 Todo가 존재하지 않을 경우
-
-            return Response(
-                {"error": "해당하는 todo가 없습니다."},
-                # 에러 메시지를 JSON 형태로 반환
-                status=status.HTTP_404_NOT_FOUND,
-                # HTTP 상태코드 404 반환
-            )
-
-        serializer = TodoSerializer(todo, data=request.data)
-        # 기존 Todo 객체 + 요청 데이터(request.data)를 Serializer에 전달
-        # 전체 데이터를 기준으로 수정
-
-        serializer.is_valid(raise_exception=True)
-        # 데이터 유효성 검사 (문제 있으면 400 에러 발생)
-
-        todo = serializer.save()
-        # 검증된 데이터로 Todo 객체 업데이트
-
-        serializer = TodoSerializer(todo)
-        # 수정된 Todo 객체를 다시 Serializer로 변환
-
-        return Response(serializer.data)
-        # 수정된 데이터를 JSON 형태로 응답
-
-    def patch(self, request, pk):
-        # PATCH 요청 → 부분 수정 (일부 필드만 수정 가능)
-
-        try:
-            todo = Todo.objects.get(pk=pk)
-            # pk에 해당하는 Todo 데이터 조회
-
-        except Todo.DoesNotExist:
-            # 해당 Todo가 존재하지 않을 경우
-
-            return Response(
-                {"error": "해당하는 todo가 없습니다."},
-                status=status.HTTP_404_NOT_FOUND,
-                # HTTP 상태코드 404 반환
-            )
-
-        serializer = TodoSerializer(todo, data=request.data, partial=True)
-        # partial=True → 일부 필드만 보내도 수정 가능
-
-        serializer.is_valid(raise_exception=True)
-        # 데이터 유효성 검사
-
-        todo = serializer.save()
-        # 수정된 데이터 DB 저장
-
-        serializer = TodoSerializer(todo)
-        # 수정된 객체를 JSON 변환
-
-        return Response(serializer.data)
-        # 수정된 데이터 응답
+    pass
 
 
 class TodoDeleteAPI(APIView):
 
-    def delete(self, request, pk):
-        # DELETE 요청이 들어오면 실행되는 함수
-        # pk는 URL로 전달된 Todo의 기본키(id)
-
-        try:
-            todo = Todo.objects.get(pk=pk)
-            # pk에 해당하는 Todo 데이터를 DB에서 조회
-
-        except Todo.DoesNotExist:
-            # 해당 Todo가 존재하지 않을 경우 실행
-
-            return Response(
-                {"error": "해당하는 todo가 없습니다."},
-                # 에러 메시지를 JSON 형태로 반환
-                status=status.HTTP_404_NOT_FOUND,
-                # HTTP 상태코드 404 (데이터 없음)
-            )
-
-        todo.delete()
-        # 조회한 Todo 데이터를 DB에서 삭제
-
-        return Response(status=status.HTTP_204_NO_CONTENT)
-        # 삭제 성공 시 응답 반환 (204 = 성공했지만 반환할 데이터 없음)
+    pass
 
 
 # ---------------------------------------------------------
-# Todo 목록 페이지네이션 설정
+# 핵심 ViewSet
 # ---------------------------------------------------------
-class TodoListPagination(PageNumberPagination):
-
-    page_size = 3
-    # 한 페이지에 기본적으로 보여줄 데이터 개수
-
-    page_size_query_param = "page_size"
-    # URL 쿼리 파라미터로 페이지 크기 변경 가능
-    # 예: /todo/viewsets/view/?page_size=5
-
-    max_page_size = 50
-    # 사용자가 설정할 수 있는 최대 페이지 크기 제한
-    # 예: page_size=100 요청 시 최대 50까지만 허용
-
-
-# ---------------------------------------
-# Todo ViewSet
-# ---------------------------------------
+# ModelViewSet
+#
+# 아래 CRUD가 자동 생성됩니다.
+#
+# GET    /todos/          → list
+# POST   /todos/          → create
+# GET    /todos/{id}/     → retrieve
+# PUT    /todos/{id}/     → update
+# DELETE /todos/{id}/     → destroy
+#
+# 즉 CRUD API를 자동으로 만들어주는 클래스입니다.
+# ---------------------------------------------------------
 class TodoViewSet(viewsets.ModelViewSet):
 
-    # Todo 데이터를 변환할 Serializer 지정
+    # -----------------------------------------------------
+    # 기본 queryset
+    # -----------------------------------------------------
+    # Todo 테이블 전체 데이터를 가져옵니다.
+    # created_at 기준으로 최신순 정렬
+    # queryset = Todo.objects.all().order_by("-created_at")
+
     serializer_class = TodoSerializer
+    permission_classes = [IsAuthenticated]  # ✅ 로그인한 사람만
+    pagination_class = CustomPageNumberPagination  # ✅ 페이지네이션 연결
 
-    # 로그인한 사용자만 API 접근 가능
-    permission_classes = [IsAuthenticated]
-
-    # 페이지네이션 설정 적용
-    pagination_class = TodoListPagination
-
-    # 조회할 queryset 설정
     def get_queryset(self):
+        user = self.request.user
+        return Todo.objects.filter(Q(is_public=True) | Q(user=user)).order_by(
+            "-created_at"
+        )
 
-        # 현재 로그인한 사용자(request.user)의 Todo만 조회
-        # 최신 Todo가 먼저 나오도록 created_at 기준 내림차순 정렬
-        return Todo.objects.filter(user=self.request.user).order_by("-created_at")
-
-    # Todo 생성 시 실행되는 메서드
+    # -----------------------------------------------------
+    # list API 커스터마이징
+    # -----------------------------------------------------
+    # 기본 list 응답
+    #
+    # [
+    #   {...},
+    #   {...}
+    # ]
+    #
+    # 하지만 JS에서 사용하기 편하도록
+    # 아래처럼 응답 구조를 변경했습니다.
+    #
+    # {
+    #   data: [...],
+    #   current_page: 1,
+    #   page_count: 5,
+    #   next: true,
+    #   previous: false
+    # }
+    # -----------------------------------------------------
     def perform_create(self, serializer):
-
-        # Todo 생성할 때 현재 로그인한 사용자를 자동으로 user 필드에 저장
         serializer.save(user=self.request.user)
+
+    def list(self, request, *args, **kwargs):
+
+        # queryset 필터링
+        qs = self.filter_queryset(self.get_queryset())
+
+        # pagination 처리
+        page = self.paginate_queryset(qs)
+
+        # ---------------------------------------------
+        # pagination이 적용된 경우
+        # ---------------------------------------------
+        if page is not None:
+
+            # serializer 실행
+            serializer = self.get_serializer(
+                page,
+                many=True,
+                context={"request": request},
+            )
+
+            return Response(
+                {
+                    "data": serializer.data,
+                    # 현재 페이지
+                    "current_page": int(request.query_params.get("page", 1)),
+                    # 전체 페이지 수
+                    "page_count": self.paginator.page.paginator.num_pages,
+                    # 다음 페이지 존재 여부
+                    "next": self.paginator.get_next_link() is not None,
+                    # 이전 페이지 존재 여부
+                    "previous": self.paginator.get_previous_link() is not None,
+                }
+            )
+
+        # ---------------------------------------------
+        # pagination이 없는 경우
+        # ---------------------------------------------
+        serializer = self.get_serializer(
+            qs,
+            many=True,
+            context={"request": request},
+        )
+
+        return Response(
+            {
+                "data": serializer.data,
+                "current_page": 1,
+                "page_count": 1,
+                "next": False,
+                "previous": False,
+            }
+        )
+
+    # -----------------------------------------------------
+    # 좋아요 토글 API
+    # -----------------------------------------------------
+    # URL
+    #
+    # POST /todo/viewsets/view/<id>/like/
+    #
+    # detail=True
+    # → 특정 Todo 대상 API
+    #
+    # permission_classes=[IsAuthenticated]
+    # → 로그인한 사용자만 가능
+    #
+    # get_or_create 패턴
+    # → 없으면 생성
+    # → 있으면 삭제
+    #
+    # 즉
+    # 좋아요 ON / OFF 토글 기능
+    # -----------------------------------------------------
+    @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
+    def like(self, request, pk=None):
+
+        # 현재 Todo 가져오기
+        todo = self.get_object()
+
+        # 로그인한 사용자
+        user = request.user
+
+        # 좋아요 존재 확인
+        obj, created = TodoLike.objects.get_or_create(todo=todo, user=user)
+
+        # 새로 생성된 경우 → 좋아요 ON
+        if created:
+            liked = True
+
+        # 이미 존재 → 삭제 → 좋아요 OFF
+        else:
+            obj.delete()
+            liked = False
+
+        # 전체 좋아요 개수 계산
+        like_count = TodoLike.objects.filter(todo=todo).count()
+
+        # 응답
+        return Response({"liked": liked, "like_count": like_count})
+
+    # -----------------------------------------------------
+    # 북마크 토글 API
+    # -----------------------------------------------------
+    # URL
+    #
+    # POST /todo/viewsets/view/<id>/bookmark/
+    #
+    # 좋아요와 동일한 구조
+    # -----------------------------------------------------
+    @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
+    def bookmark(self, request, pk=None):
+
+        # 현재 Todo
+        todo = self.get_object()
+
+        # 로그인 사용자
+        user = request.user
+
+        # 북마크 생성 또는 조회
+        obj, created = TodoBookmark.objects.get_or_create(todo=todo, user=user)
+
+        # 북마크 ON
+        if created:
+            bookmarked = True
+
+        # 북마크 OFF
+        else:
+            obj.delete()
+            bookmarked = False
+
+        # 전체 북마크 수
+        bookmark_count = TodoBookmark.objects.filter(todo=todo).count()
+
+        return Response({"bookmarked": bookmarked, "bookmark_count": bookmark_count})
+
+    # -----------------------------------------------------
+    # 댓글 등록 API
+    # -----------------------------------------------------
+    # URL
+    #
+    # POST /todo/viewsets/view/<id>/comments/
+    #
+    # request.data
+    # → 클라이언트에서 보낸 JSON 데이터
+    #
+    # {
+    #   "content": "댓글 내용"
+    # }
+    # -----------------------------------------------------
+    @action(detail=True, methods=["post"], permission_classes=[IsAuthenticated])
+    def comments(self, request, pk=None):
+
+        # Todo 가져오기
+        todo = self.get_object()
+
+        # 로그인 사용자
+        user = request.user
+
+        # 댓글 내용 가져오기
+        content = (request.data.get("content") or "").strip()
+
+        # 댓글 내용 검증
+        if not content:
+            return Response({"detail": "content is required"}, status=400)
+
+        # 댓글 생성
+        TodoComment.objects.create(todo=todo, user=user, content=content)
+
+        # 댓글 개수 계산
+        comment_count = TodoComment.objects.filter(todo=todo).count()
+
+        return Response({"comment_count": comment_count})
