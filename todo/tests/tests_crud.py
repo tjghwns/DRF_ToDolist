@@ -45,7 +45,7 @@ class TodoAPITests(TestCase):
         self.assertEqual(res.status_code, 200)
 
         self.assertIsInstance(res.json(), dict)  # 전체가 dict
-        self.assertIsInstance(res.json()["data"], list)  # data 안이 list
+        self.assertIsInstance(res.json(), list)  # data 안이 list
 
     # -----------------------------------------------------
     # 2️⃣ 생성 테스트 (POST /create/)
