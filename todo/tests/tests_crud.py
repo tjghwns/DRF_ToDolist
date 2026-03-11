@@ -44,8 +44,10 @@ class TodoAPITests(TestCase):
         # 상태코드가 200(성공)인지 확인
         self.assertEqual(res.status_code, 200)
 
-        self.assertIsInstance(res.json(), dict)  # 전체가 dict
-        self.assertIsInstance(res.json(), list)  # data 안이 list
+        data = res.json()
+        self.assertIsInstance(data, dict)  # 전체가 dict (페이지네이션)
+        self.assertIsInstance(data["results"], list)  # results 안이 list
+        self.assertGreaterEqual(len(data["results"]), 1)  # 1개 이상 존재
 
     # -----------------------------------------------------
     # 2️⃣ 생성 테스트 (POST /create/)
