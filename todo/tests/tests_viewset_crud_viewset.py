@@ -55,10 +55,10 @@ class TodoViewSetCRUDTests(TestCase):
         # 응답 데이터를 JSON으로 변환
 
         self.assertIsInstance(data, dict)
-        self.assertIsInstance(data["results"], list)
+        self.assertIsInstance(data["data"], list)
         # 응답이 리스트 형태인지 확인
 
-        self.assertGreaterEqual(len(data["results"]), 1)
+        self.assertGreaterEqual(len(data["data"]), 1)
         # 최소 1개 이상의 데이터가 존재하는지 확인
 
     # ---------------------------------------------------------

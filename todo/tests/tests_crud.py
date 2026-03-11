@@ -46,8 +46,8 @@ class TodoAPITests(TestCase):
 
         data = res.json()
         self.assertIsInstance(data, dict)  # 전체가 dict (페이지네이션)
-        self.assertIsInstance(data["results"], list)  # results 안이 list
-        self.assertGreaterEqual(len(data["results"]), 1)  # 1개 이상 존재
+        self.assertIsInstance(data["data"], list)  # results 안이 list
+        self.assertGreaterEqual(len(data["data"]), 1)  # 1개 이상 존재
 
     # -----------------------------------------------------
     # 2️⃣ 생성 테스트 (POST /create/)
